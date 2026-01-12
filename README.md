@@ -166,6 +166,182 @@ Paying monthly for Azure services based on consumption instead of buying physica
 Azure Compute Services
 
 Azure Compute Services provide the processing power required to run applications, scripts, websites, and workloads in the cloud.
+# 3. Azure Compute Services Overview
+
+Azure offers different compute options depending on the level of control, scalability, and purpose.
+
+Azure Compute Service provides on-demand computing resources to run applications, workloads, and services in the cloud.
+
+# 3.1 Virtual Machines (VMs)
+
+Azure Virtual Machines allow you to run Windows or Linux systems in the cloud, similar to a physical computer.
+# 3.1.1 VM Sizing, Pricing, and Scaling
+
+VM Sizing: VMs are available in different configurations based on CPU, RAM, and disk type.
+| **VM Type**           | **Example** | **Best For**                          |
+| --------------------- | ----------- | ------------------------------------- |
+| **General Purpose**   | B2s, D2s    | Development environments, Web servers |
+| **Compute Optimized** | F-series    | High CPU-intensive workloads          |
+| **Memory Optimized**  | E-series    | Databases, in-memory applications     |
+| **GPU VMs**           | NV-series   | AI / ML, graphics-intensive workloads |
+| **High Performance**  | H-series    | Scientific computing, simulations     |
+# Pricing Model:
+
+Pay-As-You-Go: Pay only when running.
+Reserved Instances: Cheaper if committed for 1–3 years.
+
+# Scaling:
+Scale VM size up or down based on demand.
+3 Example: During festive sales, increase size from D2s → D8s.
+
+# 3.1.2 VM Deployment and Management
+VMs can be deployed using:
+
+Azure Portal
+
+Azure CLI(Command-Line Interface)
+
+PowerShell
+
+ARM Templates(Azure Resource Manager Templates)
+
+Terraform
+
+You can manage them using SSH (Linux) or RDP (Windows).
+
+SSH is a secure protocol used to remotely access and manage Linux servers over an encrypted connection.Client sends connection request Server verifies key/password
+
+In Azure, RDP(Remote Desktop Protocol) is used to remotely access and manage Windows Virtual Machines through a graphical interface.Create a Windows VM,Azure assigns a Public IP
+Open port 3389 in NSG (Network Security Group)
+# Example Use Case:
+A payroll server is deployed as a Windows VM and maintained manually.
+# 3.2 Azure App Services
+Azure App Service is a Platform-as-a-Service (PaaS) for hosting web applications, REST APIs, and mobile backends without managing underlying infrastructure.
+
+# Azure automatically handles:
+OS patching
+
+Load balancing
+
+Auto-scaling
+
+CI/CD support
+
+Deployment slots
+
+# Example Use Case:
+Deploy a Python Flask API or Node.js web app without worrying about OS.
+# 3.3 Azure Functions (Serverless)
+Azure Functions allow you to run event-driven code without provisioning servers.
+
+You only pay for execution time (milliseconds).
+# Triggers examples:
+| **Trigger Type**  | **Example**                           |
+| ----------------- | ------------------------------------- |
+| **Blob Trigger**  | Resize an image when it is uploaded   |
+| **Timer Trigger** | Run daily automated cleanup jobs      |
+| **HTTP Trigger**  | Works like an API endpoint            |
+| **Queue Trigger** | Process asynchronous background tasks |
+# Example Use Case:
+When a user uploads an image, a function compresses and stores it.
+# 3.4 Azure Kubernetes Service (AKS)
+Azure Kubernetes Service is used for managing containerized applications using Docker + Kubernetes.
+# It provides:
+Auto scaling
+
+Load balancing
+
+Self-healing containers
+
+Blue-green deployments
+# Example Use Case:
+A banking microservices system (login, payment, alerts) deployed as containers and managed through AKS.
+# 3.5 Cloud Service Models
+Azure offers multiple cloud consumption models.
+| **Model** | **Responsibility**             | **Example Services**   | **Analogy**                               |
+| --------- | ------------------------------ | ---------------------- | ----------------------------------------- |
+| **IaaS**  | You manage OS and applications | Azure VM               | Renting an empty house and customizing it |
+| **PaaS**  | Only deploy and manage code    | App Service, Azure SQL | Furnished apartment                       |
+| **SaaS**  | Everything is managed          | Office 365, Gmail      | Hotel stay                                |
+
+# When to Use What?
+| **Requirement**                                | **Best Option**                |
+| ---------------------------------------------- | ------------------------------ |
+| Full control over OS and applications          | Virtual Machines               |
+| Host a website or API with minimal management  | App Service                    |
+| Event-driven automation or short-running tasks | Azure Functions                |
+| Microservices or container orchestration       | AKS (Azure Kubernetes Service) |
+| Fully ready-to-use software                    | SaaS model                     |
+# Summary
+VMs → Maximum control, manual management.
+
+App Services → Deploy apps without managing servers.
+
+Azure Functions → Serverless, event-driven automation.
+
+AKS → Container orchestration for microservices.
+
+Cloud Models → Decide level of ownership (IaaS, PaaS, SaaS).
+
+# 4. Azure Storage Services
+Azure Storage Services allow applications to securely store and retrieve data with massive scalability, durability, and cost flexibility.
+# 4.1 Blob Storage
+Azure Blob Storage is Microsoft's object storage designed to handle unstructured data such as logs, images, videos, backups, and datasets.
+#  Key Concepts
+# Component	        Description
+Storage Account 	Container for all storage services
+Container	        Logical group of blobs (like folder)
+Blob	            The actual stored data file
+# Blob Types
+# Blob Type	    Use Case
+Block Blob	    Text, binary, backups, images
+Append Blob	    Log files (append-only)
+Page Blob	      Virtual Machine disks
+
+# Real Example:
+If you upload profile pictures in a mobile app, they are stored in Blob Storage.
+# Example Command (Upload Blob)
+az storage blob upload \
+  --account-name mystorage123 \
+  --container-name uploads \
+  --name image1.png \
+  --file ./image1.png
+
+ 3  4.2 Storage Tiers and Replication
+Storage tiers help optimize cost based on how frequently data is accessed.
+📌 Access Tiers
+| **Tier**    | **Best For**                            | **Storage Cost** | **Access Cost** |
+| ----------- | --------------------------------------- | ---------------- | --------------- |
+| **Hot**     | Frequently accessed data                | High             | Low             |
+| **Cool**    | Occasionally accessed data              | Medium           | Medium          |
+| **Archive** | Rarely accessed data (logs, compliance) | Lowest           | Highest         |
+
+📌 Replication Strategies
+| **Replication Type**                | **Durability Level** | **Description**                               |
+| ----------------------------------- | -------------------- | --------------------------------------------- |
+| **LRS** (Locally Redundant Storage) | Local                | Data replicated within a single datacenter    |
+| **ZRS** (Zone-Redundant Storage)    | Zone level           | Replicated across multiple availability zones |
+| **GRS** (Geo-Redundant Storage)     | Cross-region         | Data replicated to a secondary region         |
+| **RA-GRS** (Read-Access GRS)        | Cross-region + Read  | Read access available from secondary region   |
+
+# Real Example:
+A banking application stores audit logs using Archive tier + GRS for compliance and disaster recovery.
+
+# 4.3 Access Control & Shared Access Signatures (SAS)
+Azure provides multiple security methods to control who can access data.
+
+# Access Mechanisms
+ # Type	          Purpose
+Access Keys	    Full admin access (avoid sharing)
+RBAC	          Assign permissions using Azure AD roles
+SAS Token	      Temporary secure access with expiration
+# SAS Example
+https://storage.blob.core.windows.net/files/data.csv?sp=r&st=2025-12-01&se=2025-12-02&sig=XA12BCXD==
+This URL gives read-only access until the expiration time.
+
+
+
+
 
 
 
