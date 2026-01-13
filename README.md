@@ -339,6 +339,147 @@ SAS Token	      Temporary secure access with expiration
 https://storage.blob.core.windows.net/files/data.csv?sp=r&st=2025-12-01&se=2025-12-02&sig=XA12BCXD==
 This URL gives read-only access until the expiration time.
 
+# 5. Azure Key Vault, Azure Functions, and Azure Logic Apps
+# 5.1 Azure Key Vault
+Azure Key Vault securely stores:
+
+Secrets (passwords, API keys)
+
+Keys (cryptographic encryption)
+
+Certificates (SSL/TLS)
+# 🧠 Real Example:
+
+Instead of storing DB password in code, your application retrieves it securely from Key Vault.
+
+# Example Access Code (Python)
+
+from azure.identity import DefaultAzureCredential
+
+from azure.keyvault.secrets import SecretClient
+
+client = SecretClient(vault_url="https://myvault.vault.azure.net/", credential=DefaultAzureCredential())
+
+secret = client.get_secret("db-password")
+
+print(secret.value)
+
+# 5.2 Azure Functions (Serverless)
+
+Azure Functions allow running code only when triggered (event-based).
+
+# 📌 Triggers Supported
+HTTP requests
+
+Blob created
+
+Timer schedules
+
+Queue messages
+# 🧠 Real Example:
+When a file is uploaded into Blob Storage → trigger a function to resize an image or validate file format.
+
+# Example Code (HTTP Trigger)
+def main(req):
+    return "Function executed successfully!"
+
+3 5.3 Azure Logic Apps
+Logic Apps help automate workflows using low-code/no-code visual builder.
+
+📌 Common Use Cases
+| Use Case      | Example                                         |
+| ------------- | ----------------------------------------------- |
+| Notifications | Send an email when a blob is uploaded           |
+| Integration   | Connect Salesforce, Microsoft Teams, SharePoint |
+| Automation    | Move files between different storage systems    |
+
+🧠 Real Example:
+"Send an email to HR when a new employee document is uploaded to Blob Storage."
+
+# 6. Azure Data Services
+Azure Data Services support data integration, storage, analytics, and ETL pipelines.
+
+# 6.1 Azure Data Factory (ADF)
+Azure Data Factory is an ETL orchestration service to move and transform data across sources.
+
+# 6.1.1 Data Ingestion & Transformation
+ADF supports ingestion from:
+
+SQL Server
+
+AWS S3
+
+REST API
+
+On-prem CSV files
+
+Blob Storage
+# 🧠 Real Example:
+Copy CSV from AWS S3 → clean and transform → load into Azure SQL Database.
+
+# 6.1.2 Pipelines and Activities
+| Concept  | Meaning                                                |
+| -------- | ------------------------------------------------------ |
+| Pipeline | Group of activities that define a complete workflow    |
+| Activity | Single ETL step (Copy, Transform, Execute Notebook)    |
+| Trigger  | Schedule-based or event-based activation of a pipeline |
+
+# Example Pipeline Steps
+Copy CSV from Blob Storage to staging
+
+Run Data Flow to clean data
+
+Load into Azure SQL Database
+
+Send completion report
+
+# 6.2 Azure SQL Database
+Azure SQL Database is a fully managed relational database service.
+
+# 📌 Key Features
+Automatic scaling
+
+Automated backups
+
+Disaster recovery
+
+Built-in security and auditing
+# 🧠 Real Example:
+Store application user information and query it using SQL.
+
+# Example SQL Query
+CREATE TABLE Users (
+  ID INT PRIMARY KEY,
+  Name NVARCHAR(100),
+  Email NVARCHAR(100)
+);
+
+INSERT INTO Users VALUES (1, 'somusekhar', 'somusekhar6384@gmail.com');
+
+SELECT * FROM Users;
+# 📌 Summary Table
+| Service             | Purpose                                         |
+| ------------------- | ----------------------------------------------- |
+| Blob Storage        | Store unstructured data (images, videos, files) |
+| Storage Replication | Ensure data durability and high availability    |
+| SAS & RBAC          | Secure and controlled access to resources       |
+| Key Vault           | Secure secrets, keys, and certificates          |
+| Azure Functions     | Run serverless, event-driven code               |
+| Logic Apps          | Automate workflows and system integrations      |
+| Data Factory        | Build and manage ETL/ELT pipelines              |
+| Azure SQL           | Fully managed relational structured database    |
+
+# 🚀 Next Recommended Topics
+Azure Virtual Networks
+
+Azure Synapse Analytics
+
+Terraform for Infrastructure as Code
+
+CI/CD with Azure DevOps
+
+
+
 
 
 
